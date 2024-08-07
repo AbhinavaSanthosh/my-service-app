@@ -1,11 +1,24 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UserLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+
+    const toastOptions = {
+        position: "bottom-right",
+        autoClose: 8000,
+        hideProgressBar: false,
+        theme: "dark",
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -15,7 +28,10 @@ const UserLogin = () => {
             navigate('/user/page'); // use navigate instead of history.push
         } catch (err) {
             if (err.response) {
-                alert(err.response.data.message);
+                toast.error(err.response.data.message, toastOptions);
+            }
+            else {
+                toast.error("Something went wrong!", toastOptions);
             }
         }
     };
@@ -24,7 +40,7 @@ const UserLogin = () => {
         <div>
             <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
                 <h1 className="text-xl font-bold mt-48 leading-tight tracking-tight text-gray-900 md:text-2xl">
-                    Sign in as a User
+                    User Sign In
                 </h1>
                 <label htmlFor="email-address-icon" className="block mb-2 text-sm font-medium text-gray-900 font-semibold mt-8">
                     Your Email
@@ -67,22 +83,6 @@ const UserLogin = () => {
                     />
                 </div>
                 <div className="flex items-center justify-between mt-10">
-                    <div className="flex items-start">
-                        <div className="flex items-center h-5">
-                            <input
-                                id="remember"
-                                aria-describedby="remember"
-                                type="checkbox"
-                                className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                                required
-                            />
-                        </div>
-                        <div className="ml-3 text-sm">
-                            <label htmlFor="remember" className="text-[#000000e2]">
-                                Remember me
-                            </label>
-                        </div>
-                    </div>
                     <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">
                         Forgot password?
                     </a>
@@ -100,6 +100,7 @@ const UserLogin = () => {
                     </a>
                 </p>
             </form>
+            <ToastContainer />
         </div>
     );
 };

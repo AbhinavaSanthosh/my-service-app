@@ -8,70 +8,80 @@ const ServiceProviderRegistration = ({ history }) => {
     const [password, setPassword] = useState('');
     const [mobile, setMobile] = useState('');
     const [city, setCity] = useState('');
+    const [customCity, setCustomCity] = useState('');
     const [address, setAddress] = useState('');
     const [serviceType, setServiceType] = useState('');
+    const [customServiceType, setcustomServiceType] = useState('');
     const [adharOrPan, setAdharOrPan] = useState('');
-    // const [otp, setOtp] = useState('');
-    // const [isOtpSent, setIsOtpSent] = useState(false);
-    // const navigate = useNavigate();
 
-    // const handleSendOtp = async () => {
-    //     try {
-    //         // Send OTP to the mobile number
-    //         await axios.post('http://localhost:5000/api/serviceProviders/sendOtp', { mobile });
-    //         setIsOtpSent(true);
-    //     } catch (error){
-    //         console.error('Error sending OTP:', error);
-    //     }
-    // };
+    const handleCityChange = (e) => {
+        const selectedCity = e.target.value;
+        if (selectedCity === 'Other') {
+            setCustomCity(''); 
+        }
+        setCity(selectedCity);
+    };
+
+    const handleServiceType = (e) => {
+        const serviceType = e.target.value;
+        if (serviceType === 'Other') {
+            setcustomServiceType(''); 
+        }
+        setServiceType(serviceType);
+    };
+
+    const handleCustomCityChange = (e) => {
+        const value = e.target.value;
+        setCustomCity(value);
+    };
+
+    const handleCustomServiceType = (e) => {
+        const value = e.target.value;
+        setcustomServiceType(value);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // try {
-        //     // Verify OTP
-        //     const otpResponse = await axios.post('http://localhost:5000/api/serviceProviders/verifyOtp', { mobile, otp });
-        //     if (otpResponse.data.success) {
-        //         const { data } = await axios.post('http://localhost:5000/api/serviceProviders/register', { name, email, password, mobile, address, serviceType, adharOrPan });
-        //         localStorage.setItem('serviceProviderInfo', JSON.stringify(data));
-        //         history.push('/servicer/home');
-        //     } else {
-        //         alert('Invalid OTP');
-        //     }
-        // } catch (error) {
-        //     console.error('Error registering service provider:', error);
-        // }
         try {
-            const { data } = await axios.post('http://localhost:5000/api/serviceProviders/register', { name, email, password, mobile, city, address, serviceType, adharOrPan });
+            const finalCity = city === "Other" ? customCity : city;
+            console.log(finalCity);
+            const finalServiceType = serviceType === "Other" ? customServiceType : serviceType;
+            const { data } = await axios.post('http://localhost:5000/api/serviceProviders/register', { name, email, password, mobile, city: finalCity, address, serviceType : finalServiceType , adharOrPan });
             localStorage.setItem('serviceProviderInfo', JSON.stringify(data));
-            // history.push('/servicer/home');
-            // navigator('/');
             console.log('Success:', data);
         }
-        catch (error){
+        catch (error) {
             console.error('Error registering service provider:', error.response ? error.response.data : error.message);
         }
     };
 
     const cities = [
-        "Mumbai", "Delhi", "Bengaluru", "Hyderabad", "Ahmedabad", "Chennai", "Kolkata",
-        "Pune", "Jaipur", "Surat", "Lucknow", "Kanpur", "Nagpur", "Indore", "Thane",
-        "Bhopal", "Visakhapatnam", "Patna", "Vadodara", "Ghaziabad", "Ludhiana",
-        "Agra", "Nashik", "Faridabad", "Meerut", "Rajkot", "Kalyan-Dombivli", "Vasai-Virar",
-        "Varanasi", "Srinagar", "Aurangabad", "Dhanbad", "Amritsar", "Navi Mumbai",
-        "Allahabad", "Ranchi", "Howrah", "Coimbatore", "Jabalpur", "Gwalior", "Vijayawada",
-        "Jodhpur", "Madurai", "Raipur", "Kota", "Guwahati", "Chandigarh", "Solapur",
-        "Hubli-Dharwad", "Bareilly", "Mysore", "Tiruchirappalli", "Tiruppur", "Salem",
-        "Aligarh", "Gurgaon", "Jalandhar", "Thiruvananthapuram", "Bhubaneswar", "Moradabad",
-        "Jamshedpur", "Asansol", "Durgapur", "Nanded", "Kolhapur", "Ajmer", "Gulbarga",
-        "Jamnagar", "Ujjain", "Loni", "Siliguri", "Jhansi", "Ulhasnagar", "Mangalore",
-        "Erode", "Belgaum", "Ambattur", "Tirunelveli", "Malegaon", "Gaya", "Jalgaon",
-        "Udaipur", "Maheshtala", "Davanagere", "Kozhikode", "Akola", "Kurnool", "Bokaro",
-        "South Dumdum", "Bellary", "Patiala", "Gopalpur", "Agartala", "Bhagalpur", "Muzaffarpur",
-        "Bhatpara", "Panihati", "Latur", "Dhule", "Rohtak", "Korba", "Bhilwara", "Berhampur",
-        "Muzaffarnagar", "Ahmednagar", "Mathura", "Kollam", "Avadi", "Kadapa", "Anantapur",
-        "Kamarhati", "Bilaspur", "Kharagpur", "Rajahmundry", "New Delhi", "Warangal",
-        "Haridwar", "Bardhaman", "Purnia", "Pondicherry"
+        "Select city","Agartala", "Agra", "Ahmedabad", "Ahmednagar", "Ajmer", "Akola", "Aligarh", "Allahabad", "Ambattur",
+        "Amritsar", "Anantapur", "Asansol", "Aurangabad", "Avadi", "Bangalore", "Bareilly", "Belgaum", "Bellary",
+        "Bengaluru", "Berhampur", "Bhagalpur", "Bhatpara", "Bhavnagar", "Bhilai", "Bhilwara", "Bhopal", "Bhubaneswar",
+        "Bikaner", "Bilaspur", "Bokaro", "Chandigarh", "Chennai", "Coimbatore", "Cuttack", "Davanagere", "Dehradun",
+        "Delhi", "Dhanbad", "Durgapur", "Erode", "Faridabad", "Ghaziabad", "Gopalpur", "Gulbarga", "Gurgaon", "Guwahati",
+        "Gwalior", "Haridwar", "Howrah", "Hubli-Dharwad", "Hyderabad", "Indore", "Jabalpur", "Jaipur", "Jalandhar",
+        "Jalgaon", "Jamnagar", "Jamshedpur", "Jhansi", "Jodhpur", "Kadapa", "Kalyan-Dombivli", "Kamarhati", "Kanpur",
+        "Kharagpur", "Kochi", "Kolhapur", "Kolkata", "Kollam", "Kota", "Kozhikode", "Kurnool", "Latur", "Loni", "Lucknow",
+        "Ludhiana", "Madurai", "Maheshtala", "Mangalore", "Mathura", "Meerut", "Moradabad", "Muzaffarnagar",
+        "Muzaffarpur", "Mysore", "Nagpur", "Nanded", "Nashik", "Navi Mumbai", "New Delhi", "Panihati", "Patiala", "Patna",
+        "Pondicherry", "Pune", "Purnia", "Raipur", "Rajahmundry", "Rajkot", "Ranchi", "Rohtak", "Salem", "Siliguri",
+        "Solapur", "South Dumdum", "Srinagar", "Surat", "Tiruchirappalli", "Tirunelveli", "Tiruppur", "Thane",
+        "Thiruvananthapuram", "Udaipur", "Ulhasnagar", "Vadodara", "Varanasi", "Vasai-Virar", "Vijayawada",
+        "Visakhapatnam", "Warangal", "Other"
     ];
+
+    const serviceProviderRoles = [
+        "Select service provider","AC Repair Technician", "Appliance Repair Technician(e.g., refrigerator, washing machine)",
+        "Babysitter / Nanny", "Bike Mechanic", "Car Mechanic", "Carpenter", "Computer / IT Support Technician",
+        "Cook / Chef", "Courier / Delivery Service", "Driver", "Electrician", "Event Planner",
+        "Gardener", "Handyman", "House Cleaner", "Laundry / Ironing Service", "Makeup Artist",
+        "Massage Therapist", "Mason", "Painter", "Pest Control Technician", "Personal Trainer / Fitness Instructor",
+        "Pet Groomer", "Photographer / Videographer", "Plumber", "Security Guard", "Tailor",
+        "Tutor", "Welder", "Yoga Instructor", "Other"
+    ];
+
 
     return (
         <div>
@@ -96,8 +106,7 @@ const ServiceProviderRegistration = ({ history }) => {
                     </div>
                     <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} id="email-address-icon" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@gmail.com" required />
                 </div>
-                <label htmlFor="password" className="
-block mb-2 mt-2 text-sm font-medium text-gray-900">Password</label>
+                <label htmlFor="password" className="block mb-2 mt-2 text-sm font-medium text-gray-900">Password</label>
                 <div className="relative">
                     <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                         <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -115,35 +124,57 @@ block mb-2 mt-2 text-sm font-medium text-gray-900">Password</label>
                         </svg>
                     </div>
                     <input type="text" id="mobile" value={mobile} onChange={(e) => setMobile(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Mobile Number" required />
-                    {/* <button type="button" onClick={handleSendOtp} className="mt-2 bg-blue-500 text-white py-2 px-4 rounded-lg">
-                        Send OTP
-                    </button> */}
                 </div>
-
-                {/* {isOtpSent && (
-                    <>
-                        <label htmlFor="otp" className="block mb-2 mt-2 text-sm font-medium text-gray-900">Enter OTP</label>
-                        <input type="text" id="otp" value={otp} onChange={(e) => setOtp(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-2.5 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="OTP" required />
-                    </>
-                )} */}
-
-                <label htmlFor="city" className="block mb-2 mt-2 text-sm font-medium text-gray-900">City</label>
-                <select id="city" value={city} onChange={(e) => setCity(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                    {cities.map((city) => (
-                        <option key={city} value={city}>{city}</option>
-                    ))}
-                </select>
-
-                <label htmlFor="address" className="block mb-2 mt-2 text-sm font-medium text-gray-900">Address</label>
-                <textarea id="address" value={address} onChange={(e) => setAddress(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Address" required></textarea>
-
-                <label htmlFor="serviceType" className="block mb-2 mt-2 text-sm font-medium text-gray-900">Service Type</label>
-                <input type="text" id="serviceType" value={serviceType} onChange={(e) => setServiceType(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-2.5 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Service Type" required />
 
                 <label htmlFor="adharOrPan" className="block mb-2 mt-2 text-sm font-medium text-gray-900">Adhar/PAN</label>
                 <input type="text" id="adharOrPan" value={adharOrPan} onChange={(e) => setAdharOrPan(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-2.5 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Adhar or PAN" required />
 
-                <button type="submit" className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg">
+                <label htmlFor="serviceType" className="block mb-2 mt-2 text-sm font-medium text-gray-900">Service Type</label>
+                <select
+                    id="serviceType" value={serviceType} onChange={handleServiceType}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    {serviceProviderRoles.map((serviceType) => (
+                        <option key={serviceType} value={serviceType}>{serviceType}</option>
+                    ))}
+                </select>
+                {serviceType === 'Other' && (
+                    <div className="mt-2">
+                        <label htmlFor="customServiceType" className="block mb-2 text-sm font-medium text-gray-900">Enter your serviceType</label>
+                        <input
+                            type="text"
+                            id="customServiceType"
+                            value={customServiceType}
+                            onChange={(e) => handleCustomServiceType(e)}
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required
+                        />
+                    </div>
+                )}
+                <label htmlFor="city" className="block mb-2 mt-2 text-sm font-medium text-gray-900">City</label>
+                <select
+                    id="city" value={city} onChange={handleCityChange}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    {cities.map((city) => (
+                        <option key={city} value={city}>{city}</option>
+                    ))}
+                </select>
+                {city === 'Other' && (
+                    <div className="mt-2">
+                        <label htmlFor="customCity" className="block mb-2 text-sm font-medium text-gray-900">Enter your city</label>
+                        <input
+                            type="text"
+                            id="customCity"
+                            value={customCity}
+                            onChange={(e) => handleCustomCityChange(e)}
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required
+                        />
+                    </div>
+                )}
+
+                <label htmlFor="address" className="block mb-2 mt-2 text-sm font-medium text-gray-900">Address</label>
+                <textarea id="address" value={address} onChange={(e) => setAddress(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Address" required></textarea>
+                <button type="submit" className="mt-4 bg-[#202e4c] border-2 font-semibold text-white py-2 px-4 rounded-lg hover:bg-slate-50 hover:text-black hover:border-slate-950 ">
                     Register
                 </button>
             </form>

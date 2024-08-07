@@ -8,9 +8,9 @@ import ServiceProviderLogin from './components/pages/ServiceProviderLogin';
 import ServiceProviderRegistration from './components/pages/ServiceProviderRegistration';
 import ServiceProvidersList from './components/pages/ServiceProvidersList';
 import UserLogin from './components/pages/UserLogin';
-import UserRegistration from './components/pages/UserRegistration';
 import UserPage from './components/pages/UserPage';
 import UserPageDisplay from './components/pages/UserPageDisplay';
+import UserRegistration from './components/pages/UserRegistration';
 
 function App() {
   return (

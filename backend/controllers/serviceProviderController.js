@@ -47,7 +47,6 @@ const servicerLogin = async (req, res) =>{
 
 const servicerdata = async (req, res) => {
     const {servicerType} = req.body;
-    console.log("serviceType: " + servicerType);
     const serviceProvider = await ServiceProvider.find({serviceType : servicerType});
     res.json(serviceProvider);
 }

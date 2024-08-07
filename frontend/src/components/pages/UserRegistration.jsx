@@ -25,20 +25,10 @@ const UserRegistration = ({ history }) => {
         
     };
     return (
-        // <div>
-        //     <h1>User Registration</h1>
-        //     <form onSubmit={handleSubmit}>
-        //         <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" required />
-        //         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
-        //         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-        //         <button type="submit">Register</button>
-        //     </form>
-        // </div>
         <div>
             <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
-                {/* <h1 className='text-3xl font-bold mt-48'>User Login</h1> */}
                 <h1 className="text-xl font-bold mt-12 leading-tight tracking-tight text-gray-900 md:text-2xl">
-                    Sign Up
+                    User Sign Up
                 </h1>
                 <label for="username" className="block mb-2 text-sm font-medium text-gray-900 mt-6">User name</label>
                 <div className="relative">

@@ -1,25 +1,38 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ServiceProviderLogin = ({ history }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const toastOptions = {
+        position: "bottom-right",
+        autoClose: 8000,
+        hideProgressBar: false,
+        theme: "dark",
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try{
             const { data } = await axios.post('http://localhost:5000/api/serviceProviders/serLogin', { email, password });
             localStorage.setItem('serviceProviderInfo', JSON.stringify(data.message));
-
             const msg = data.message;
             alert(msg);
-            
-            // history.push('/servicer/home');
-            // console.log('msg',data);
-
         }
-        catch(error){
-            console.log(error);
+        catch (err) {
+            if (err.response) {
+                toast.error(err.response.data.message, toastOptions);
+            }
+            else {
+                toast.error("Something went wrong!", toastOptions);
+            }
         }
         
     };
@@ -36,9 +49,8 @@ const ServiceProviderLogin = ({ history }) => {
                 Don't have an account? <Link to="/servicer/register">Register</Link>
             </p> */}
             <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
-                {/* <h1 className='text-3xl font-bold mt-48'>User Login</h1> */}
                 <h1 className="text-xl font-bold mt-48 leading-tight tracking-tight text-gray-900 md:text-2xl">
-                    Sign in as service provider
+                    Service Provider  Sign In
                 </h1>
                 <label for="email-address-icon" className="block mb-2 text-sm font-medium text-gray-900  font-semibold mt-8">Your Email</label>
                 <div className="relative">
@@ -61,14 +73,6 @@ const ServiceProviderLogin = ({ history }) => {
                     <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} id="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="password" />
                 </div>
                 <div className="flex items-center justify-between mt-10">
-                    <div className="flex items-start">
-                        <div className="flex items-center h-5">
-                            <input id="remember" aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required="" />
-                        </div>
-                        <div className="ml-3 text-sm">
-                            <label for="remember" className="text-[#000000e2]">Remember me</label>
-                        </div>
-                    </div>
                     <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
                 </div>
                 <button type="submit" className="w-full bg-[#d1d1d18c] mt-4 mb-4 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
@@ -76,6 +80,7 @@ const ServiceProviderLogin = ({ history }) => {
                     Don’t have an account yet? <a href="/servicer/register" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
                 </p>
             </form>
+            <ToastContainer />
         </div>
     );
 };
