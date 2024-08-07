@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 const ServiceProviderRegistration = ({ history }) => {
+    const navigate = useNavigate(); 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -17,7 +19,7 @@ const ServiceProviderRegistration = ({ history }) => {
     const handleCityChange = (e) => {
         const selectedCity = e.target.value;
         if (selectedCity === 'Other') {
-            setCustomCity(''); 
+            setCustomCity('');
         }
         setCity(selectedCity);
     };
@@ -25,7 +27,7 @@ const ServiceProviderRegistration = ({ history }) => {
     const handleServiceType = (e) => {
         const serviceType = e.target.value;
         if (serviceType === 'Other') {
-            setcustomServiceType(''); 
+            setcustomServiceType('');
         }
         setServiceType(serviceType);
     };
@@ -47,6 +49,7 @@ const ServiceProviderRegistration = ({ history }) => {
             console.log(finalCity);
             const finalServiceType = serviceType === "Other" ? customServiceType : serviceType;
             const { data } = await axios.post('http://localhost:5000/api/serviceProviders/register', { name, email, password, mobile, city: finalCity, address, serviceType : finalServiceType , adharOrPan });
+            navigate('/ServicerProfilePage');
             localStorage.setItem('serviceProviderInfo', JSON.stringify(data));
             console.log('Success:', data);
         }

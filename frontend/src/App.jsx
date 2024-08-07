@@ -11,6 +11,7 @@ import UserLogin from './components/pages/UserLogin';
 import UserPage from './components/pages/UserPage';
 import UserPageDisplay from './components/pages/UserPageDisplay';
 import UserRegistration from './components/pages/UserRegistration';
+import ServicerProfilePage from './components/pages/ServicerProfilePage';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/user/pageDisplay" element={<UserPageDisplay />} />
             <Route path="/servicer/login" element={<ServiceProviderLogin />} />
             <Route path="/servicer/register" element={<ServiceProviderRegistration />} />
+            <Route path="/ServicerProfilePage" element={<ServicerProfilePage />}/>
             <Route path="/services" element={<ServiceProvidersList />} />
             <Route path="/contact/:providerId" element={<ContactServiceProvider />} />
           </Routes>
