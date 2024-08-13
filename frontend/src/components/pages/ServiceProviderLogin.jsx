@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 const ServiceProviderLogin = ({ history }) => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -22,11 +23,9 @@ const ServiceProviderLogin = ({ history }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try{
-            const { data } = await axios.post('http://localhost:5000/api/serviceProviders/serLogin', { email, password });
+            const { data } = await axios.post('http://localhost:5000/api/serviceProviders/servicerLogin', { email, password });
             localStorage.setItem('serviceProviderInfo', JSON.stringify(data.message));
-            const msg = data.message;
-            navigate('/ServicerProfilePage');
-            alert(msg);
+            navigate('/ServicerProfilePage', {state : {email1 : email}});
         }
         catch (err) {
             if (err.response) {
@@ -79,7 +78,7 @@ const ServiceProviderLogin = ({ history }) => {
                 </div>
                 <button type="submit" className="w-full bg-[#d1d1d18c] mt-4 mb-4 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
                 <p className="text-sm font-light text-gray-500 mb-40">
-                    Don’t have an account yet? <a href="/servicer/register" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
+                    Don’t have an account yet? <a  href="/servicer/register" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
                 </p>
             </form>
             <ToastContainer />

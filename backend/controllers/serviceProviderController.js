@@ -1,3 +1,4 @@
+const { response } = require('express');
 const ServiceProvider = require('../models/ServiceProvider');
 const generateToken = require('../utils/generateToken');
 // const sendSms = require('../utils/sendSms');
@@ -16,7 +17,7 @@ const registerServiceProvider = async (req, res) => {
     
     await serviceProvider.save();
 
-    res.status(201).json({ 
+    res.status(201).json({
         _id: serviceProvider._id,
         name: serviceProvider.name,
         email: serviceProvider.email,
@@ -51,6 +52,25 @@ const servicerdata = async (req, res) => {
     res.json(serviceProvider);
 }
 
+const servicerProfile = async (req, res) => {
+    const {email1} = req.body;
+    const ServiceProviderdata = await ServiceProvider.findOne({ email: email1 });
+    if(ServiceProviderdata){
+        res.json({
+            name : ServiceProviderdata.name,
+            email : ServiceProviderdata.email,
+            mobile : ServiceProviderdata.mobile,
+            city : ServiceProviderdata.city,
+            address : ServiceProviderdata.address,
+            serviceType : ServiceProviderdata.serviceType,
+            adharOrPan: ServiceProviderdata.adharOrPan
+        });
+    }else{
+        res.status(200).send({message: 'No data found'});
+    }
+    
+}
+
 // const verifyOTP = async (req, res) => {
 //     const { mobile, otp } = req.body;
 //     const serviceProvider = await ServiceProvider.findOne({ mobile });
@@ -73,4 +93,4 @@ const servicerdata = async (req, res) => {
 //     res.status(200).json({ message: 'OTP sent successfully' });
 // };
 
-module.exports = { registerServiceProvider, servicerLogin, servicerdata};
+module.exports = { registerServiceProvider, servicerLogin, servicerdata, servicerProfile};

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const ServiceProviderRegistration = ({ history }) => {
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -46,11 +46,10 @@ const ServiceProviderRegistration = ({ history }) => {
         e.preventDefault();
         try {
             const finalCity = city === "Other" ? customCity : city;
-            console.log(finalCity);
             const finalServiceType = serviceType === "Other" ? customServiceType : serviceType;
             const { data } = await axios.post('http://localhost:5000/api/serviceProviders/register', { name, email, password, mobile, city: finalCity, address, serviceType : finalServiceType , adharOrPan });
-            navigate('/ServicerProfilePage');
             localStorage.setItem('serviceProviderInfo', JSON.stringify(data));
+            navigate('/ServicerProfilePage',{state :{email1 : email}} );
             console.log('Success:', data);
         }
         catch (error) {

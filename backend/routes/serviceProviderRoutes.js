@@ -2,7 +2,8 @@ const express = require('express');
 const {
     registerServiceProvider,
     servicerLogin,
-    servicerdata
+    servicerdata,
+    servicerProfile
 } = require('../controllers/serviceProviderController');
 
 const router = express.Router();
@@ -10,8 +11,9 @@ const router = express.Router();
 // router.post('/sendOtp', sendOTP);
 
 router.post('/register', registerServiceProvider);
-router.post('/serLogin',servicerLogin);
+router.post('/servicerLogin',servicerLogin);
 router.post('/servicerdata',servicerdata);
+router.post('/servicerProfile', servicerProfile);
 // router.post('/login', authServiceProvider);
 // router.post('/verifyOtp', verifyOTP);
 // router.get('/', getServiceProviders);
