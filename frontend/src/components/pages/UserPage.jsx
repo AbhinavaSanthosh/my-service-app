@@ -23,13 +23,13 @@ const UserPage = () => {
       <div className="p-8">
         <button
           type="button"
-          className="text-black border-2 bg-white hover:bg-[#24292F] focus:ring-4 focus:outline-none focus:ring-[#24292F] font-bold rounded-lg text-2xl px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708] me-2 mb-2"
+          className="text-black border-2 bg-white hover:bg-[#24292F] hover:text-white focus:ring-4 focus:outline-none focus:ring-[#24292F] font-bold rounded-lg text-2xl px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708] me-2 mb-0"
         >
           <img className="w-6 mr-4 rounded-lg" src={userPage0} alt="Service Providers" />
           Services Providers
         </button>
       </div>
-      <div className="flex-wrap space-x-14 space-y-12">
+      <div className="ml-4 space-y-12">
         {[
           "Electrician", "Plumber", "Carpenter", "Painter", "AC Repair Technician", "Gardener",
           "House Cleaner", "Cook/Chef", "Driver", "Pest Control Technician", "Mason",
@@ -43,7 +43,7 @@ const UserPage = () => {
         ].map((service, index) => (
           <a
             key={index}
-            className="relative inline-block text-lg group"
+            className="relative inline-block ml-6 text-lg group"
             onClick={() => navigateToUserPageDisplay(service)}
           >
             <span className="relative z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-gray-800 transition-colors duration-300 ease-out border-2 border-gray-900 rounded-lg group-hover:text-white">
@@ -55,8 +55,6 @@ const UserPage = () => {
           </a>
         ))}
       </div>
-
-      {/* Additional Button and Input for Custom Profession */}
       <div className="p-8 mt-8">
         <h1 className='font-bold text-xl'>If others enter the required service provider~</h1>
         <input

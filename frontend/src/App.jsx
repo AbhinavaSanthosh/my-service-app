@@ -12,6 +12,7 @@ import UserPage from './components/pages/UserPage';
 import UserPageDisplay from './components/pages/UserPageDisplay';
 import UserRegistration from './components/pages/UserRegistration';
 import ServicerProfilePage from './components/pages/ServicerProfilePage';
+import ContactPage from './components/pages/Contact';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path="/ServicerProfilePage" element={<ServicerProfilePage />}/>
             <Route path="/services" element={<ServiceProvidersList />} />
             <Route path="/contact/:providerId" element={<ContactServiceProvider />} />
+            <Route path="/ContactPage" element={<ContactPage/>} />
           </Routes>
         </main>
         <Footer />
